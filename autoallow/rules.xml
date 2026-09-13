@@ -31,6 +31,12 @@
 	<test cmd='git show 54d7aa918a94 --stat &amp;&amp; echo "---" &amp;&amp; git show 54d7aa918a94 -- path/to/file.cpp' expect="allow"/>
 
 	<!-- Denied processes, in every spelling the enumeration approach misses. -->
+	<test cmd="until ! pgrep -f make.bash; do sleep 15; done" expect="deny"/>
+	<test cmd="git status &amp;&amp; until false; do sleep 1; done" expect="deny"/>
+	<test cmd="while true; do sleep 1; done" expect="deny"/>
+	<test cmd="true" expect="deny"/>
+	<test cmd="go build ./... || true" expect="deny"/>
+	<test cmd="grep -rn until docs/" expect="allow"/>
 	<test cmd="python --version" expect="deny"/>
 	<test cmd="python3 script.py" expect="deny"/>
 	<test cmd="python3.11 -c 'print(1)'" expect="deny"/>
@@ -87,6 +93,21 @@
 	<deny>
 		<rule process="python"
 			message="Python is not available here. Use jq for JSON and node for scripts."/>
+
+		<!-- The harness re-invokes the session when a background command exits.
+		     A shell that waits for it holds the turn open, so the wake-up lands
+		     on a blocked turn and the session deadlocks until a human ends it. -->
+		<rule process="until"
+			message="Do not wait in the shell. End the turn and read the output when the command reports, or use gh wait-ci for CI."/>
+
+		<!-- A command that does nothing and reports success. It exists to make a
+		     tool call, a chain or a pipeline look like work. -->
+		<rule process="true"
+			message="This command does nothing. Run the real one, or say what is blocking."/>
+		<rule process="false"
+			message="This command does nothing. Run the real one, or say what is blocking."/>
+		<rule process=":"
+			message="This command does nothing. Run the real one, or say what is blocking."/>
 
 		<!-- node, ruby and perl themselves stay usable; this environment's own
 		     hooks are `node file.ts`. What is denied is handing them a script:

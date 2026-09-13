@@ -1,28 +1,21 @@
 [submodule "grammars/golang/tree-sitter-go"]
 	path = grammars/golang/testdata/tree-sitter-go
 	url = https://github.com/tree-sitter/tree-sitter-go.git
-	rev = 2346a3ab1bb3857b48b29d779a1ef9799a248cd7
 [submodule "grammars/clang/tree-sitter-c"]
 	path = grammars/clang/testdata/tree-sitter-c
 	url = https://github.com/tree-sitter/tree-sitter-c.git
-	rev = b780e47fc780ddc8da13afa35a3f4ed5c157823d
 [submodule "grammars/cpp/tree-sitter-cpp"]
 	path = grammars/cpp/testdata/tree-sitter-cpp
 	url = https://github.com/tree-sitter/tree-sitter-cpp.git
-	rev = 8b5b49eb196bec7040441bee33b2c9a4838d6967
 [submodule "grammars/rust/tree-sitter-rust"]
 	path = grammars/rust/testdata/tree-sitter-rust
 	url = https://github.com/tree-sitter/tree-sitter-rust.git
-	rev = 77a3747266f4d621d0757825e6b11edcbf991ca5
 [submodule "grammars/bash/tree-sitter-bash"]
 	path = grammars/bash/testdata/tree-sitter-bash
 	url = https://github.com/tree-sitter/tree-sitter-bash.git
-	rev = a06c2e4415e9bc0346c6b86d401879ffb44058f7
 [submodule "grammars-javascript"]
 	path = grammars/javascript/testdata/tree-sitter-javascript
 	url = https://github.com/tree-sitter/tree-sitter-javascript.git
-	rev = 58404d8cf191d69f2674a8fd507bd5776f46cb11
 [submodule "grammars-typescript"]
 	path = grammars/typescript/testdata/tree-sitter-typescript
 	url = https://github.com/tree-sitter/tree-sitter-typescript.git
-	rev = 75b3874edb2dc714fb1fd77a32013d0f8699989f

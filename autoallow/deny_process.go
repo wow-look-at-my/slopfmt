@@ -23,6 +23,32 @@ type ProcessRule struct {
 	EvalSubcommands []string
 }
 
+// matchKeyword answers the rule naming a shell keyword the command uses.
+//
+// `until` is spelled like a command and read like one, and the resolver below
+// never reaches it: it resolves the programs the loop RUNS. So a rule naming
+// one is matched on the parse node instead, and a rule is written the same way
+// whichever it names.
+func matchKeyword(file *syntax.File, rules []ProcessRule) (string, string) {
+	used := set.New[string]()
+	syntax.Walk(file, func(n syntax.Node) bool {
+		if w, ok := n.(*syntax.WhileClause); ok {
+			if w.Until {
+				used.Add("until")
+			} else {
+				used.Add("while")
+			}
+		}
+		return true
+	})
+	for _, rule := range rules {
+		if used.Contains(rule.Name) {
+			return rule.Name, rule.Message
+		}
+	}
+	return "", ""
+}
+
 // isInlineScript reports whether an invocation hands the interpreter a script
 // rather than a file. fedByStdin carries what the argument list cannot show.
 func isInlineScript(d ProcessRule, args []shellwalk.Word, fedByStdin bool) bool {
@@ -63,6 +89,9 @@ func matchProcessRule(command string, denies []ProcessRule) (string, string) {
 	file, err := syntax.NewParser().Parse(strings.NewReader(command), "")
 	if err != nil {
 		return "", ""
+	}
+	if name, msg := matchKeyword(file, denies); name != "" {
+		return name, msg
 	}
 
 	// `echo 'code' | node` smuggles a script past an argument check.
