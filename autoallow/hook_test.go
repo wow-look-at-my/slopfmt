@@ -59,7 +59,7 @@ func TestEvaluateCommandReadsTheLoadedRules(t *testing.T) {
 	saved := rules
 	t.Cleanup(func() { rules = saved })
 
-	rules = Rules{DenyProcesses: []ProcessRule{{Name: "python", Behavior: "deny", Message: "python is banned here"}}}
+	rules = Rules{DenyCommands: []CommandRule{{Name: "python", Behavior: "deny", Message: "python is banned here"}}}
 	decision, reason := evaluateCommand("python3 -c 'print(1)'")
 	assert.Equal(t, "deny", decision)
 	assert.Contains(t, reason, "python is banned here")
