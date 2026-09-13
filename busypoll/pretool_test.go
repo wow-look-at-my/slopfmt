@@ -112,7 +112,7 @@ func TestAMergedPullRequestIsNeverReadAgain(t *testing.T) {
 	require.NotEmpty(t, reason, "a merged pull request cannot answer differently")
 	assert.Contains(t, reason, "wow-look-at-my/grok-build#87",
 		"the refusal must name the subject it settled, not just say no")
-	assert.Contains(t, reason, "cannot leave")
+	assert.Contains(t, reason, "is settled")
 }
 
 func TestADifferentPullRequestIsStillReadable(t *testing.T) {
@@ -344,7 +344,7 @@ func TestRereadingTheSameSubjectWithNothingInBetweenIsRefused(t *testing.T) {
 		bashInput("gh pr checks 87 --repo wow-look-at-my/grok-build")))
 
 	require.NotEmpty(t, reason, "nothing happened between the two reads")
-	assert.Contains(t, reason, "already read the state of")
+	assert.Contains(t, reason, "read the state of")
 }
 
 func TestRespellingTheQuestionWithAnotherToolIsStillARepeat(t *testing.T) {
@@ -357,7 +357,7 @@ func TestRespellingTheQuestionWithAnotherToolIsStillARepeat(t *testing.T) {
 
 	require.NotEmpty(t, reason,
 		"the subject is the same pull request, so a different tool is the same call")
-	assert.Contains(t, reason, "same pull request or commit")
+	assert.Contains(t, reason, "the same subject is the same call")
 }
 
 func TestAWakeEnvelopeIsRecognisedInAToolResult(t *testing.T) {
