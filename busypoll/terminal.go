@@ -57,9 +57,9 @@ func terminalSubjects(recs []record) map[string]bool {
 // of them went green no more than it says which did not.
 func shaSubjects(subs []string) []string {
 	var out []string
-	for _, s := range subs {
-		if strings.HasPrefix(s, "sha:") {
-			out = append(out, s)
+	for _, sub := range subs {
+		if strings.HasPrefix(sub, "sha:") {
+			out = append(out, sub)
 		}
 	}
 	return out
