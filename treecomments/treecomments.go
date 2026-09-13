@@ -50,8 +50,13 @@ var grammars = map[string]func() *ts.Language{
 	".zsh":  bash.Language,
 }
 
-// Supported reports whether a grammar parses a file of that name.
-func Supported(filename string) bool { return grammarFor(filename) != nil }
+// Supported reports whether a grammar parses a file of that name. It asks the
+// table of extensions rather than grammarFor, because loading a grammar decodes
+// its parse tables and the question here is only whether one is named.
+func Supported(filename string) bool {
+	_, ok := grammars[strings.ToLower(filepath.Ext(filename))]
+	return ok
+}
 
 // grammarFor answers the grammar an extension names, and nil when none does.
 func grammarFor(filename string) *ts.Language {

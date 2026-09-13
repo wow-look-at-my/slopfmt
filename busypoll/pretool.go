@@ -107,26 +107,16 @@ func readSinceLastSignal(recs []record) map[string]bool {
 // terminalText is what the model is told about a settled subject. It is a
 // document with a hole in it rather than a run of writes, so the wording
 // reads as the reader will see it.
-const terminalText = `Blocked: %s already reached a state it cannot leave, and this session
-watched it get there -- the answer is in your transcript. A merged pull request
-does not un-merge, and a commit that went green does not go red (a later push
-makes a NEW commit, which is a different question).
-
-Nothing you can call will return a different answer, so this call is pure cost.
-Report the state you already have and move on to work that is not this.`
+const terminalText = `Blocked: %s is settled and this session watched it settle.
+The state is in your transcript. A push makes a new commit, which is a new question.`
 
 // repeatText names the ways out, because a refusal that only says "do not"
 // costs a round trip while the model guesses at what would satisfy it.
-const repeatText = `Blocked: you already read the state of %s, and nothing has happened
-since -- no message from the user, no notification or wake event, and no push or
-commit of your own. The answer cannot have changed, so this call spends the
-user's tokens to re-read what you have.
+const repeatText = `Blocked: you read the state of %s already, and nothing has
+happened since -- no user message, no wake event, no push of your own. Another
+tool asking after the same subject is the same call.
 
-Re-spelling the question does not make it a new one: a different tool asking
-after the same pull request or commit is the same call.
-
-Either reply with no tool call and let the event wake you, or go do something
-else. This unblocks by itself the moment anything real happens.`
+This unblocks itself the moment anything real happens.`
 
 func terminalReason(subject string) string {
 	return fmt.Sprintf(terminalText, describe(subject))

@@ -68,7 +68,7 @@ func TestTerminalSubjectIsRefusedInALocalSession(t *testing.T) {
 	reason := denyReasonOf(t, preToolPayload(t, tr, "Bash",
 		bashInput("gh pr view 87 --repo wow-look-at-my/grok-build")))
 
-	assert.Contains(t, reason, "cannot leave",
+	assert.Contains(t, reason, "is settled",
 		"a merged pull request does not un-merge on a laptop either")
 }
 
